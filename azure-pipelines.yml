@@ -19,7 +19,7 @@ steps:
 
 - task: ArchiveFiles@2
   inputs:
-    rootFolderOrFile: 'dist'  # Replace with your build output directory if different
+    rootFolderOrFile: 'dist'  # Adjust this if your output folder is different
     includeRootFolder: false
     archiveType: 'zip'
     archiveFile: '$(Build.ArtifactStagingDirectory)/app.zip'
@@ -28,7 +28,7 @@ steps:
 
 - task: AzureWebApp@1
   inputs:
-    azureSubscription: 'az_react_test' 
-    appName: '<simplereactapp>'
+    azureSubscription: 'az_react_test'  # Make sure this matches your service connection name
+    appName: 'simplereactapp'           # Replace with your App Service name
     package: '$(Build.ArtifactStagingDirectory)/app.zip'
   displayName: 'Deploy to Azure Web App'
