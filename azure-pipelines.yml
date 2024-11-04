@@ -9,7 +9,7 @@ pool:
 steps:
 - task: NodeTool@0
   inputs:
-    versionSpec: '16.x'  # Adjust based on the Node.js version required
+    versionSpec: '16.x'  # Match the Node.js version your app requires
   displayName: 'Install Node.js'
 
 - script: |
@@ -17,8 +17,18 @@ steps:
     npm run build  # Assumes "build" script is defined in package.json
   displayName: 'Install Dependencies and Build Project'
 
-- task: PublishBuildArtifacts@1
+- task: ArchiveFiles@2
   inputs:
-    pathToPublish: 'dist'  # Change this if your build outputs to a different folder
-    artifactName: 'app-build'
-  displayName: 'Publish Build Artifacts'
+    rootFolderOrFile: 'dist'  # Adjust to your output folder if different
+    includeRootFolder: false
+    archiveType: 'zip'
+    archiveFile: '$(Build.ArtifactStagingDirectory)/app.zip'
+    replaceExistingArchive: true
+  displayName: 'Archive Build Artifacts'
+
+- task: AzureWebApp@1
+  inputs:
+    azureSubscription: 'az_react_test'  # Replace with your Azure service connection name
+    appName: '<simplereactapp>'  # Replace with the name of your App Service
+    package: '$(Build.ArtifactStagingDirectory)/app.zip'
+  displayName: 'Deploy to Azure Web App'
