@@ -9,7 +9,7 @@ pool:
 steps:
 - task: NodeTool@0
   inputs:
-    versionSpec: '16.x'  # Match the Node.js version your app requires
+    versionSpec: '16.x'  # Match Node.js version with your app requirements
   displayName: 'Install Node.js'
 
 - script: |
@@ -19,7 +19,7 @@ steps:
 
 - task: ArchiveFiles@2
   inputs:
-    rootFolderOrFile: 'dist'  # Adjust to your output folder if different
+    rootFolderOrFile: 'dist'  # Replace with your build output directory if different
     includeRootFolder: false
     archiveType: 'zip'
     archiveFile: '$(Build.ArtifactStagingDirectory)/app.zip'
@@ -28,7 +28,7 @@ steps:
 
 - task: AzureWebApp@1
   inputs:
-    azureSubscription: 'az_react_test'  # Replace with your Azure service connection name
-    appName: '<simplereactapp>'  # Replace with the name of your App Service
+    azureSubscription: 'az_react_test' 
+    appName: '<simplereactapp>'
     package: '$(Build.ArtifactStagingDirectory)/app.zip'
   displayName: 'Deploy to Azure Web App'
